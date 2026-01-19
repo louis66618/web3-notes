@@ -128,7 +128,7 @@ cd web3-notes
 ## 📮 联系我
 
 - GitHub: [louis66618](https://github.com/louis66618)
-- Email: your@email.com
+- Email: louis66618@gmail.com
 
 ---
 
