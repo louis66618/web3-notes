@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的 Web3 学习笔记 | My Web3 Learning Notes</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="记录我的 Rust、Solana 和 Arbitrum 学习历程 | My learning journey in Rust, Solana, and Arbitrum development">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">📝 我的 Web3 笔记</div>
+            <ul class="nav-menu">
+                <li><a href="#rust">Rust</a></li>
+                <li><a href="#solana">Solana</a></li>
+                <li><a href="#arbitrum">Arbitrum</a></li>
+                <li><a href="#resources">更多</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>👋 欢迎来到我的 Web3 学习笔记</h1>
+            <h2>记录 Rust、Solana 和 Arbitrum 的学习历程</h2>
+            <p class="hero-subtitle">这里是我学习 Web3 开发的个人笔记与心得分享</p>
+            <p class="hero-subtitle-en">Personal notes and insights on my Web3 development journey</p>
+            <div class="hero-buttons">
+                <a href="#rust" class="btn btn-primary">阅读笔记 | Read Notes</a>
+                <a href="https://github.com" target="_blank" class="btn btn-secondary">GitHub 主页</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">学习方向 | Learning Paths</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">持续更新 | Continuously Updated</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">📝</div>
+                <div class="stat-label">个人博客 | Personal Blog</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rust Section -->
+    <section id="rust" class="section rust-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">🦀 Foundation</span>
+                <h2 class="section-title">Rust 编程语言 | Rust Programming Language</h2>
+                <p class="section-subtitle">内存安全、高性能、现代系统编程语言</p>
+            </div>
+
+            <!-- What is Rust -->
+            <div class="content-card">
+                <h3>📖 什么是 Rust？ | What is Rust?</h3>
+                <p>Rust 是一门赋予每个人构建可靠且高效软件能力的系统编程语言。它在保证性能的同时，通过<strong>所有权（Ownership）</strong>系统在编译期防止内存错误。</p>
+                <p class="en">Rust is a systems programming language that empowers everyone to build reliable and efficient software. It guarantees performance while preventing memory errors at compile time through the <strong>Ownership</strong> system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h4>高性能 | High Performance</h4>
+                        <p>零成本抽象，无垃圾回收，像 C/C++ 一样快</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔒</div>
+                        <h4>内存安全 | Memory Safe</h4>
+                        <p>编译期保证，杜绝空指针、数据竞争等问题</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🛠️</div>
+                        <h4>现代工具链 | Modern Tooling</h4>
+                        <p>Cargo 包管理器，优秀的文档和 IDE 支持</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌐</div>
+                        <h4>跨平台 | Cross-platform</h4>
+                        <p>支持 Windows、Linux、macOS、WebAssembly</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ownership System -->
+            <div class="content-card highlight-card">
+                <h3>🎯 核心概念：所有权系统 | Core Concepts: Ownership System</h3>
+                <p class="tip">💡 这是 Rust 最独特的特性，也是学习曲线最陡峭的部分 | This is Rust's most unique feature and the steepest part of the learning curve</p>
+
+                <div class="concept-box">
+                    <h4>1️⃣ 所有权规则 | Ownership Rules</h4>
+                    <ul>
+                        <li>Rust 中的每个值都有一个所有者（owner）</li>
+                        <li>值在同一时间只能有一个所有者</li>
+                        <li>当所有者离开作用域，值将被丢弃</li>
+                    </ul>
+                    <pre><code class="rust">// 所有权示例 | Ownership Example
+{
+    let s = String::from("hello"); // s 是所有者 | s is the owner
+    // s 在这里有效 | s is valid here
+} // s 离开作用域并被丢弃 | s goes out of scope and is dropped</code></pre>
+                </div>
+
+                <div class="concept-box">
+                    <h4>2️⃣ 借用 | Borrowing</h4>
+                    <p>借用允许你使用值而不获取所有权。有两种引用类型：</p>
+                    <ul>
+                        <li><code>&T</code> - 不可变引用（可以同时有多个）</li>
+                        <li><code>&mut T</code> - 可变引用（同一时间只能有一个）</li>
+                    </ul>
+                    <pre><code class="rust">// 借用示例 | Borrowing Example
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1); // 借用 | borrow
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+} // s 离开作用域，但因为没有所有权，所以不丢弃 | s goes out of scope but nothing happens</code></pre>
+                </div>
+
+                <div class="concept-box">
+                    <h4>3️⃣ 生命周期 | Lifetimes</h4>
+                    <p>生命周期确保引用始终有效。编译器会验证所有引用都是有效的。</p>
+                    <pre><code class="rust">// 生命周期示例 | Lifetime Example
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Why Rust for Web3 -->
+            <div class="content-card">
+                <h3>🚀 为什么 Rust 适合 Web3 开发？ | Why Rust for Web3?</h3>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>特性 | Feature</th>
+                                <th>Rust 优势 | Advantage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>安全性 | Security</td>
+                                <td>编译期防止内存漏洞，智能合约更安全</td>
+                            </tr>
+                            <tr>
+                                <td>性能 | Performance</td>
+                                <td>无 GC，确定性执行，适合区块链</td>
+                            </tr>
+                            <tr>
+                                <td>并发 | Concurrency</td>
+                                <td>Fearless concurrency，处理高吞吐量</td>
+                            </tr>
+                            <tr>
+                                <td>互操作性 | Interoperability</td>
+                                <td>编译到 WASM，支持多链部署</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="content-card getting-started">
+                <h3>🛠️ 快速开始 | Quick Start</h3>
+                <div class="step-list">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>安装 Rust | Install Rust</h4>
+                            <pre><code class="bash"># macOS / Linux
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Windows
+# 下载并运行 rustup-init.exe
+# Download and run rustup-init.exe from https://rustup.rs/</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>创建项目 | Create Project</h4>
+                            <pre><code class="bash">cargo new my-project
+cd my-project
+cargo run</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>学习资源 | Learning Resources</h4>
+                            <ul class="resource-list">
+                                <li>📚 <a href="https://doc.rust-lang.org/book/" target="_blank">The Rust Programming Language Book</a></li>
+                                <li>🎮 <a href="https://rustlings.cool" target="_blank">Rustlings - 互动练习</a></li>
+                                <li>📺 <a href="https://www.youtube.com/@ryanlevick" target="_blank">Ryan Levick's YouTube Channel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solana Section -->
+    <section id="solana" class="section solana-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">◎ High Performance</span>
+                <h2 class="section-title">Solana 区块链 | Solana Blockchain</h2>
+                <p class="section-subtitle">高性能 Layer 1 区块链，使用 Rust 构建智能合约</p>
+            </div>
+
+            <div class="content-card">
+                <h3>📖 什么是 Solana？ | What is Solana?</h3>
+                <p>Solana 是一个高性能的 Layer 1 区块链，专注于可扩展性和速度。它使用 <strong>Proof of History (PoH)</strong> 共识机制，可以达到每秒数万笔交易（TPS）。</p>
+                <p class="en">Solana is a high-performance Layer 1 blockchain focused on scalability and speed. It uses the <strong>Proof of History (PoH)</strong> consensus mechanism to achieve tens of thousands of transactions per second (TPS).</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h4>高吞吐量 | High TPS</h4>
+                        <p>65,000+ TPS，毫秒级确认</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💰</div>
+                        <h4>低费用 | Low Fees</h4>
+                        <p>平均交易费用低于 $0.001</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔗</div>
+                        <h4>Proof of History</h4>
+                        <p>创新共识机制，无需时间戳协调</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌐</div>
+                        <h4>并行处理 | Parallelization</h4>
+                        <p>Sealevel 运行时支持智能合约并行执行</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solana Program Development -->
+            <div class="content-card highlight-card">
+                <h3>🎯 Solana 程序开发 | Solana Program Development</h3>
+                <p class="tip">💡 Solana 上的智能合约叫做"程序"（Programs）| Smart contracts on Solana are called "Programs"</p>
+
+                <div class="concept-box">
+                    <h4>核心概念 | Core Concepts</h4>
+                    <div class="concept-list">
+                        <div class="concept-item">
+                            <h5>账户 | Accounts</h5>
+                            <p>Solana 的所有数据存储在账户中。每个账户有唯一的地址和余额。</p>
+                        </div>
+                        <div class="concept-item">
+                            <h5>程序 | Programs</h5>
+                            <p>Solana 的智能合约，使用 Rust 或 C 编写，编译为 BPF 字节码。</p>
+                        </div>
+                        <div class="concept-item">
+                            <h5>指令 | Instructions</h5>
+                            <p>调用程序函数的基本单位，包含程序 ID 和账户列表。</p>
+                        </div>
+                        <div class="concept-item">
+                            <h5>交易 | Transactions</h5>
+                            <p>可以包含多个指令，原子性执行（全部成功或全部失败）。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h4>开发工具 | Development Tools</h4>
+                    <ul>
+                        <li><strong>Solana CLI</strong> - 命令行工具，用于管理密钥、部署程序等</li>
+                        <li><strong>Anchor</strong> - Solana 的 Rust 框架，简化开发</li>
+                        <li><strong>Solana Program Library (SPL)</strong> - 标准程序库（代币、质押等）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Solana Code Example -->
+            <div class="content-card">
+                <h3>💻 Solana 程序示例 | Solana Program Example</h3>
+                <pre><code class="rust">// 使用 Anchor 框架的简单计数器程序 | Simple counter program using Anchor
+use anchor_lang::prelude::*;
+
+declare_id!("YourProgramIDHere");
+
+#[program]
+pub mod counter {
+    use super::*;
+
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        counter.count = 0;
+        msg!("Counter initialized! Count: {}", counter.count);
+        Ok(())
+    }
+
+    pub fn increment(ctx: Context<Increment>) -> Result<()> {
+        let counter = &mut ctx.accounts.counter;
+        msg!("Previous count: {}", counter.count);
+        counter.count += 1;
+        msg!("Current count: {}", counter.count);
+        Ok(())
+    }
+}
+
+#[account]
+pub struct Counter {
+    pub count: u64,
+}
+
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(
+        init,
+        payer = user,
+        space = 8 + Counter::SPACE
+    )]
+    pub counter: Account<'info, Counter>,
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct Increment<'info> {
+    #[account(mut)]
+    pub counter: Account<'info, Counter>,
+}</code></pre>
+            </div>
+
+            <!-- Solana Getting Started -->
+            <div class="content-card getting-started">
+                <h3>🛠️ Solana 开发环境设置 | Solana Development Setup</h3>
+                <div class="step-list">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>安装 Solana CLI | Install Solana CLI</h4>
+                            <pre><code class="bash">sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+# 验证安装 | Verify installation
+solana --version</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>安装 Anchor | Install Anchor</h4>
+                            <pre><code class="bash">cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+avm install latest
+avm use latest</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>创建项目 | Create Project</h4>
+                            <pre><code class="bash">anchor init my-solana-app
+cd my-solana-app
+anchor build
+anchor deploy</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solana Resources -->
+            <div class="content-card">
+                <h3>📚 Solana 学习资源 | Solana Learning Resources</h3>
+                <ul class="resource-list">
+                    <li>📖 <a href="https://solana.com/docs" target="_blank">Solana 官方文档 | Official Docs</a></li>
+                    <li>🎓 <a href="https://www.solana.com/developers/guides" target="_blank">Solana 开发者指南 | Developer Guides</a></li>
+                    <li>📺 <a href="https://www.youtube.com/watch?v=rp13i7Vu9Io" target="_blank">2026 Solana Bootcamp</a></li>
+                    <li>🦀 <a href="https://github.com/WTFAcademy/WTF-Solana" target="_blank">WTF Solana 教程 (中文)</a></li>
+                    <li>🏫 <a href="https://learnblockchain.cn/article/22690" target="_blank">Solana 技术训练营 2026</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arbitrum Section -->
+    <section id="arbitrum" class="section arbitrum-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">🔵 Layer 2</span>
+                <h2 class="section-title">Arbitrum & Stylus | Arbitrum & Stylus</h2>
+                <p class="section-subtitle">以太坊 Layer 2 扩展解决方案，支持 Rust 智能合约</p>
+            </div>
+
+            <div class="content-card">
+                <h3>📖 什么是 Arbitrum？ | What is Arbitrum?</h3>
+                <p>Arbitrum 是以太坊的 Layer 2 扩展解决方案，使用 <strong>Optimistic Rollup</strong> 技术提供高吞吐量和低交易成本，同时继承以太坊的安全性。</p>
+                <p class="en">Arbitrum is an Ethereum Layer 2 scaling solution using <strong>Optimistic Rollup</strong> technology to provide high throughput and low transaction costs while inheriting Ethereum's security.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h4>高吞吐量 | High Throughput</h4>
+                        <p>40,000+ TPS，快速确认</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💰</div>
+                        <h4>低 Gas 费 | Low Gas Fees</h4>
+                        <p>比以太坊主网低 90-95%</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔒</div>
+                        <h4>EVM 兼容 | EVM Compatible</h4>
+                        <p>完全兼容以太坊工具和 DApp</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🦀</div>
+                        <h4>Stylus 支持 | Stylus Support</h4>
+                        <p>支持 Rust、C、C++ 编写合约</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arbitrum Stylus -->
+            <div class="content-card highlight-card">
+                <h3>🎯 Arbitrum Stylus - Rust 智能合约 | Rust Smart Contracts</h3>
+                <p class="tip">💡 Stylus 允许开发者使用 Rust、C、C++ 编写智能合约，同时保持完全的 EVM 兼容性！| Stylus allows developers to write smart contracts in Rust, C, C++ while maintaining full EVM compatibility!</p>
+
+                <div class="concept-box">
+                    <h4>Stylus 核心特性 | Stylus Core Features</h4>
+                    <ul class="stylus-features">
+                        <li>🦀 <strong>多语言支持</strong>：支持 Rust、C、C++ 编写智能合约</li>
+                        <li>⛽ <strong>Gas 效率</strong>：WASM 效率比 EVM 高 10x 以上</li>
+                        <li>🔗 <strong>完全兼容</strong>：与现有 Solidity 合约无缝互操作</li>
+                        <li>🛠️ <strong>丰富工具</strong>：使用 Cargo 进行包管理</li>
+                        <li>🌐 <strong>广泛测试</strong>：支持 Foundry 和传统测试框架</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box">
+                    <h4>Arbitrum Orbit - 创建你自己的链 | Create Your Own Chain</h4>
+                    <p>Arbitrum Orbit 允许任何人部署专属的 L3 链，并完全支持 Stylus！</p>
+                    <ul>
+                        <li>完全控制 Gas 代币和经济模型</li>
+                        <li>自定义隐私和权限设置</li>
+                        <li>使用 Stylus 部署 Rust/C/C++ 合约</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Stylus Code Example -->
+            <div class="content-card">
+                <h3>💻 Stylus Rust 合约示例 | Stylus Rust Contract Example</h3>
+                <pre><code class="rust">// Stylus Rust 智能合约示例 | Stylus Rust Smart Contract Example
+use stylus_sdk::prelude::*;
+
+// 定义存储状态 | Define storage state
+sol_storage! {
+    #[entrypoint]
+    pub struct Counter {
+        uint256 count;
+    }
+}
+
+// 定义外部接口 | Define external interface
+#[external]
+impl Counter {
+    // 构造函数 | Constructor
+    pub fn init(&mut self) {
+        self.count.set(U256::from(0));
+    }
+
+    // 获取当前计数 | Get current count
+    pub fn count(&self) -> U256 {
+        self.count.get()
+    }
+
+    // 增加计数 | Increment count
+    pub fn increment(&mut self) {
+        let current = self.count.get();
+        self.count.set(current + U256::from(1));
+    }
+
+    // 设置计数 | Set count
+    pub fn set(&mut self, value: U256) {
+        self.count.set(value);
+    }
+}</code></pre>
+            </div>
+
+            <!-- Stylus Getting Started -->
+            <div class="content-card getting-started">
+                <h3>🛠️ Stylus 开发环境设置 | Stylus Development Setup</h3>
+                <div class="step-list">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>安装 Stylus CLI | Install Stylus CLI</h4>
+                            <pre><code class="bash"># 使用 Cargo 安装 | Install with Cargo
+cargo install --force stylus-cli
+
+# 或使用 cargo-stylus | Or use cargo-stylus
+cargo install cargo-stylus</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>创建新项目 | Create New Project</h4>
+                            <pre><code class="bash">cargo stylus new --stylus my-contract
+cd my-contract</code></pre>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>构建和部署 | Build and Deploy</h4>
+                            <pre><code class="bash"># 构建合约 | Build contract
+cargo stylus build
+
+# 部署到 Arbitrum 测试网 | Deploy to Arbitrum testnet
+cargo stylus deploy \
+  --rpc-url https://stylus-testnet.arbitrum.io \
+  --private-key YOUR_PRIVATE_KEY</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arbitrum Resources -->
+            <div class="content-card">
+                <h3>📚 Arbitrum & Stylus 学习资源 | Learning Resources</h3>
+                <ul class="resource-list">
+                    <li>📖 <a href="https://docs.arbitrum.io/stylus/quickstart" target="_blank">Arbitrum Stylus 官方文档 | Official Docs</a></li>
+                    <li>🦀 <a href="https://github.com/OffchainLabs/stylus-tutorials" target="_blank">Stylus 官方教程 | Official Tutorials</a></li>
+                    <li>📺 <a href="https://www.youtube.com/watch?v=TlShu2Pep9s" target="_blank">Stylus 部署教程视频</a></li>
+                    <li>📝 <a href="https://stylus-1.gitbook.io/stylusguide/" target="_blank">Stylus 完整指南</a></li>
+                    <li>🌐 <a href="https://learnblockchain.cn/article/19046" target="_blank">Arbitrum Stylus 入门教程 (中文)</a></li>
+                    <li>🚀 <a href="https://hackquest.io/zh-cn/co-learning/78aa4580-fbc2-492f-8ea9-9b5444be2f96" target="_blank">Arbitrum Rust 共学社区</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="section comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🔄 技术对比 | Technology Comparison</h2>
+            </div>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>特性 | Feature</th>
+                            <th>Solana</th>
+                            <th>Arbitrum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>类型 | Type</td>
+                            <td>Layer 1 独立链</td>
+                            <td>以太坊 Layer 2</td>
+                        </tr>
+                        <tr>
+                            <td>共识 | Consensus</td>
+                            <td>Proof of History + PoS</td>
+                            <td>Optimistic Rollup</td>
+                        </tr>
+                        <tr>
+                            <td>编程语言 | Languages</td>
+                            <td>Rust, C</td>
+                            <td>Solidity, Rust (Stylus), C, C++</td>
+                        </tr>
+                        <tr>
+                            <td>TPS</td>
+                            <td>65,000+</td>
+                            <td>40,000+</td>
+                        </tr>
+                        <tr>
+                            <td>交易费用 | Fees</td>
+                            <td>~$0.00025</td>
+                            <td>比 ETH 低 90-95%</td>
+                        </tr>
+                        <tr>
+                            <td>确认时间 | Finality</td>
+                            <td>~400ms</td>
+                            <td>~1秒</td>
+                        </tr>
+                        <tr>
+                            <td>EVM 兼容 | EVM Compatible</td>
+                            <td>否 (通过 Neon EVM)</td>
+                            <td>是</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="section resources-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">📚 学习路径 | Learning Path</h2>
+                <p class="section-subtitle">从零到精通的建议学习顺序</p>
+            </div>
+
+            <div class="learning-path">
+                <div class="path-step">
+                    <div class="path-icon">🦀</div>
+                    <h3>第一阶段：Rust 基础</h3>
+                    <p>掌握 Rust 语言基础：所有权、借用、生命周期、错误处理</p>
+                    <ul>
+                        <li>阅读《The Rust Programming Language》</li>
+                        <li>完成 Rustlings 练习</li>
+                        <li>编写几个小项目熟悉语法</li>
+                    </ul>
+                    <div class="path-duration">预计 2-4 周 | 2-4 weeks</div>
+                </div>
+
+                <div class="path-arrow">↓</div>
+
+                <div class="path-step">
+                    <div class="path-icon">🔗</div>
+                    <h3>第二阶段：选择方向</h3>
+                    <p>根据兴趣选择 Solana 或 Arbitrum 开始 Web3 开发</p>
+                    <div class="choice-cards">
+                        <div class="choice-card">
+                            <h4>🚀 Solana 路线</h4>
+                            <ul>
+                                <li>学习 Solana 核心概念</li>
+                                <li>掌握 Anchor 框架</li>
+                                <li>开发第一个 DApp</li>
+                            </ul>
+                        </div>
+                        <div class="choice-card">
+                            <h4>🔵 Arbitrum 路线</h4>
+                            <ul>
+                                <li>学习以太坊基础知识</li>
+                                <li>掌握 Solidity 或 Stylus (Rust)</li>
+                                <li>部署到 Arbitrum 网络</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="path-duration">预计 4-8 周 | 4-8 weeks</div>
+                </div>
+
+                <div class="path-arrow">↓</div>
+
+                <div class="path-step">
+                    <div class="path-icon">🎯</div>
+                    <h3>第三阶段：实战项目</h3>
+                    <p>构建完整的去中心化应用</p>
+                    <ul>
+                        <li>设计项目架构</li>
+                        <li>编写智能合约</li>
+                        <li>开发前端界面</li>
+                        <li>部署到主网</li>
+                    </ul>
+                    <div class="path-duration">持续学习 | Ongoing</div>
+                </div>
+            </div>
+
+            <!-- Additional Resources -->
+            <div class="content-card">
+                <h3>🔗 更多资源 | More Resources</h3>
+                <div class="resource-categories">
+                    <div class="resource-category">
+                        <h4>🦀 Rust 资源</h4>
+                        <ul>
+                            <li><a href="https://doc.rust-lang.org/book/" target="_blank">Rust Book</a></li>
+                            <li><a href="https://rustlings.cool" target="_blank">Rustlings</a></li>
+                            <li><a href="https://github.com/rust-lang/rustlings" target="_blank">Rustlings GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-category">
+                        <h4>◎ Solana 资源</h4>
+                        <ul>
+                            <li><a href="https://solana.com/docs" target="_blank">Solana Docs</a></li>
+                            <li><a href="https://www.solana.com/developers/guides" target="_blank">Developer Guides</a></li>
+                            <li><a href="https://github.com/solana-labs/solana-program-library" target="_blank">SPL</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-category">
+                        <h4>🔵 Arbitrum 资源</h4>
+                        <ul>
+                            <li><a href="https://docs.arbitrum.io" target="_blank">Arbitrum Docs</a></li>
+                            <li><a href="https://docs.arbitrum.io/stylus/quickstart" target="_blank">Stylus Docs</a></li>
+                            <li><a href="https://github.com/OffchainLabs/stylus-tutorials" target="_blank">Stylus Tutorials</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>📝 我的 Web3 学习笔记</h4>
+                    <p>记录学习之路，分享个人心得</p>
+                    <p class="en">Documenting my learning journey, sharing insights</p>
+                </div>
+                <div class="footer-section">
+                    <h4>笔记分类 | Categories</h4>
+                    <ul>
+                        <li><a href="#rust">Rust 基础</a></li>
+                        <li><a href="#solana">Solana 开发</a></li>
+                        <li><a href="#arbitrum">Arbitrum/Stylus</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>关于我 | About Me</h4>
+                    <ul>
+                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                        <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                        <li><a href="mailto:your@email.com" target="_blank">Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 我的 Web3 学习笔记 | 持续更新中...</p>
+                <p class="footer-note">内容仅为个人学习笔记 | Personal learning notes only</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
